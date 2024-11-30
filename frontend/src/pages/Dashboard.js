@@ -13,33 +13,27 @@ const Dashboard = () => {
     },
   ]);
 
-  const csvFilePath = 'sample_vulnerability_results.csv';
-
   useEffect(() => {
-    fetch(csvFilePath)
-      .then((response) => response.text()) 
-      .then((data) => {
-        Papa.parse(data, {
-          header: true, 
-          skipEmptyLines: true, 
-          complete: (result) => {
-            const formattedData = result.data.map((row, index) => ({
-              id: index + 1, // Assign a unique id to each row
-              emp_id: row.emp_id,
-              department: row.department,
-              role: row.role,
-              name: row.name,
-              email: row.email,
-              vulnerability_score: parseFloat(row.vulnerability_score),
-            }));
-            setRows(formattedData); 
-          },
-        });
-      })
-      .catch((error) => {
-        console.error('Error loading CSV:', error); 
-      });
+    const fetchVulnerabilityScores = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/vulnerability-scores');
+        const result = await response.json();
+        if (result.status === 'success') {
+          // Add unique `id` to each row
+          const formattedRows = result.data.map((row, index) => ({
+            ...row,
+            id: index + 1, // Assign a unique id based on the index
+          }));
+          setRows(formattedRows);
+        }
+      } catch (error) {
+        console.error('Error fetching vulnerability scores:', error);
+      }
+    };
+  
+    fetchVulnerabilityScores();
   }, []);
+  
 
   const handleDepartmentFilterChange = (event) => {
     setDepartmentFilter(event.target.value);
