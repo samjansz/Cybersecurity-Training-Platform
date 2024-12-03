@@ -16,8 +16,8 @@ const App = () => {
       <div
         style={{
           display: 'grid',
-          gridTemplateRows: 'auto 1fr', // Header takes up the first row; content takes up remaining height
-          gridTemplateColumns: '240px 1fr', // Sidebar takes a fixed width; Main Content fills the rest
+          gridTemplateRows: 'auto 1fr',
+          gridTemplateColumns: '240px 1fr',
           height: '100vh',
         }}
       >

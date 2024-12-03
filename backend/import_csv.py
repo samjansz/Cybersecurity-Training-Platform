@@ -5,7 +5,6 @@ csv_path = "./data/sample_vulnerability_results.csv"
 
 df = pd.read_csv(csv_path)
 
-# Insert each row into the AWS database
 for _, row in df.iterrows():
     record = VulnerabilityScore(
         emp_id=row["emp_id"],
